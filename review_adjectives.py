@@ -2,6 +2,7 @@ import json
 import multiprocessing
 import spacy
 from tqdm import tqdm
+import pandas
 
 def process_line(line): 
     '''
@@ -36,7 +37,9 @@ def read_in_chunks(file_object, chunk_size=500000):
     while True:
         data = []
         for i in range(chunk_size): 
-            data.append(file_object.readline())
+            line = file_object.readline()
+            if line.strip() == '': break
+            data.append(line)
         if not data:
             break
         yield data
