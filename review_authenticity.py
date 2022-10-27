@@ -19,7 +19,7 @@ def process_line(line):
     if business_id not in businesses_to_keep: 
         return None
     stars = d['stars']
-    month_year = d['date'].split(' ')[:7]
+    month_year = d['date'][:7]
     text = d['text']
     
     authenticity_words = ["authentic", "authenticity", "legitimate", "traditional", "Americanized"]
