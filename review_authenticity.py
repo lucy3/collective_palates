@@ -18,6 +18,7 @@ def process_line(line):
     business_id = d['business_id']
     if business_id not in businesses_to_keep: 
         return None
+    review_id = d['review_id']
     stars = d['stars']
     month_year = d['date'][:7]
     text = d['text']
@@ -36,7 +37,7 @@ def process_line(line):
     else: 
         authentic_mention = False
     
-    return business_id, month_year, authentic_mention, stars
+    return business_id, review_id, month_year, authentic_mention, stars
 
 def read_in_chunks(file_object, chunk_size=500000):
     """
@@ -55,6 +56,7 @@ def read_in_chunks(file_object, chunk_size=500000):
 def main():
     all_results = {
         'business_id': [],
+        'review_id': [],
         'month_year': [],
         'authentic_mention': [],
         'stars': [],
@@ -65,8 +67,9 @@ def main():
                 results = list(tqdm(p.imap(process_line, chunk), total=len(chunk)))
                 for res in results: 
                     if res is None: continue
-                    business_id, month_year, authentic_mention, stars = res
+                    business_id, review_id, month_year, authentic_mention, stars = res
                     all_results['business_id'].append(business_id)
+                    all_results['review_id'].append(review_id)
                     all_results['month_year'].append(month_year)
                     all_results['authentic_mention'].append(authentic_mention)
                     all_results['stars'].append(stars)
