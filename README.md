@@ -1,4 +1,4 @@
-# Collective Palates, or Taste Dialects, across the United States
+# America's Collective Palates, or Taste Dialects
 
 This repository is very preliminary currently. We have a few scripts for extracting mentions of authenticity, as well as adjectives, from Yelp's Open Dataset, and a few plots in a Jupyter Notebook demonstrating the potential of this study. 
 
