@@ -49,8 +49,11 @@ def fetch(id, limit=20):
     return reviews
 
 
-def main(businesses, topk, num_restaurants):
-    out = open("reviews.jsonl", "w")
+def main(businesses, topk, outfile, num_restaurants):
+    if outfile is None:
+        out = open("reviews.jsonl", "w")
+    else:
+        out = open(outfile, "w")
     business_ids = []
     for i, line in tqdm(enumerate(open(businesses, "r"))):
         if i >= num_restaurants and num_restaurants > 0:
@@ -66,5 +69,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("businesses")
     parser.add_argument("--topk", default=20, type=int)
+    parser.add_argument("--outfile", default=None)
     parser.add_argument("--num-restaurants", default=20, type=int)
     main(**vars(parser.parse_args()))
