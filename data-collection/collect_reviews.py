@@ -27,7 +27,7 @@ def fetch(id, limit=20):
     # pbar = tqdm()
     while cumulative < limit or limit < 0:
         params["start"] = cumulative
-        r = session.get(endpoint, data=params)
+        r = session.get(endpoint, params=params)
         try:
             json_response = r.json()
             results = json_response["reviews"]
