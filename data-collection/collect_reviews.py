@@ -17,7 +17,7 @@ def get_session() -> requests.Session:
 
 def fetch(id, limit=20):
     session = get_session()
-    endpoint = f"https://www.yelp.com/biz/{id}/review_feed?&sort_by=relevance_desc"
+    endpoint = f"https://www.yelp.com/biz/{id}/review_feed"
     params = dict()
     params["sort_by"] = "relevance_desc"
 
@@ -26,18 +26,25 @@ def fetch(id, limit=20):
 
     # pbar = tqdm()
     while cumulative < limit or limit < 0:
+        params["start"] = cumulative
         r = session.get(endpoint, data=params)
-        json_response = r.json()
-        results = json_response["reviews"]
-        total = json_response["pagination"]["totalResults"]
-        reviews += results
+        try:
+            json_response = r.json()
+            results = json_response["reviews"]
+            total = json_response["pagination"]["totalResults"]
+            reviews += results
 
         # pbar.total = min(limit, total) if limit > 0 else total
         # pbar.update(len(results))
-        #
-        cumulative += len(results)
-        if cumulative >= total:
-            break
+
+            cumulative += len(results)
+            if cumulative >= total:
+                break
+        except Exception as e:
+            print(r)
+            print(endpoint)
+            print(params)
+            print(e)
     # pbar.close()
     return reviews
 
